@@ -5,16 +5,6 @@ import fs from "fs";
 import path from "path";
 import jwt from "jsonwebtoken";
 
-interface BasicAuth {
-  username: string;
-  password: string;
-  email: string;
-}
-
-interface Registry {
-  token: string;
-}
-
 function shortUrl(url: string) {
   return url.replace(/^http(s)?:/, "").replace(/npm\/registry\/\:.*/, "");
 }
