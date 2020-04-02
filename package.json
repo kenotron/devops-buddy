@@ -1,10 +1,10 @@
 {
   "name": "devops-buddy",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "license": "MIT",
   "main": "dist/cli.js",
   "bin": {
-    "devops-buddy": "dist/cli.js"
+    "devops-buddy": "bin/devops-buddy.js"
   },
   "scripts": {
     "build": "tsc",
