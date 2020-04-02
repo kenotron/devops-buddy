@@ -23,7 +23,11 @@ function getRegistries(config: { [key: string]: string }, token: Token) {
   const registries: string[] = [];
 
   for (const [key, value] of Object.entries(config)) {
-    if (key.includes("registry") && value.includes("pkgs.visualstudio.com")) {
+    if (
+      key.includes("registry") &&
+      typeof value === "string" &&
+      value.includes("pkgs.visualstudio.com")
+    ) {
       registries.push(shortUrl(value));
     }
   }
