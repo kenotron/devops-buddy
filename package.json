@@ -6,6 +6,9 @@
   "bin": {
     "devops-buddy": "bin/devops-buddy.js"
   },
+  "repository": {
+    "url": "https://github.com/kenotron/devops-buddy"
+  },
   "scripts": {
     "build": "tsc",
     "start": "tsc -w"
@@ -14,8 +17,7 @@
     "axios": "^0.19.2",
     "electron": "^8.2.0",
     "ini": "^1.3.5",
-    "jsonwebtoken": "^8.5.1",
-    "keytar": "^5.4.0"
+    "jsonwebtoken": "^8.5.1"
   },
   "devDependencies": {
     "@types/axios": "^0.14.0",

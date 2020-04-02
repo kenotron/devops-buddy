@@ -1,4 +1,8 @@
-import keytar from "keytar";
+import os from "os";
+import path from "path";
+import fs from "fs";
+
+const configFile = path.join(os.userInfo().homedir, ".devops-buddy");
 
 export interface Token {
   accessToken: string;
@@ -9,16 +13,18 @@ export interface Token {
 }
 
 export async function getToken() {
-  const tokenBlob = await keytar.findPassword("devops-buddy");
+  if (fs.existsSync(configFile)) {
+    const tokenBlob = fs.readFileSync(configFile, "utf-8");
 
-  if (tokenBlob) {
-    const token = JSON.parse(tokenBlob);
-    return token;
+    if (tokenBlob) {
+      const token = JSON.parse(tokenBlob);
+      return token;
+    }
   }
 
   return null;
 }
 
 export async function setToken(token: Token) {
-  await keytar.setPassword("devops-buddy", "dummy", JSON.stringify(token));
+  fs.writeFileSync(configFile, JSON.stringify(token, null, 2));
 }

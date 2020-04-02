@@ -9,7 +9,7 @@ function shortUrl(url: string) {
   return url.replace(/^http(s)?:/, "").replace(/npm\/registry\/\:.*/, "");
 }
 
-function getRegistries(config: { [key: string]: string }, token: Token) {
+function getRegistries(config: { [key: string]: string }) {
   const registries: string[] = [];
 
   for (const [key, value] of Object.entries(config)) {
@@ -73,7 +73,7 @@ export async function injectTokenInNpmConfig(token: Token) {
 
   const combinedConfig = { ...userConfig, ...projectConfig };
 
-  const registries = getRegistries(combinedConfig, token);
+  const registries = getRegistries(combinedConfig);
   const newUserConfig = updateUserConfig(userConfig, registries, token);
 
   fs.writeFileSync(userNpmrcPath, ini.encode(newUserConfig));

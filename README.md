@@ -18,6 +18,17 @@ yarn global add devops-buddy
 
 When the size is reduced, the global installation guidance would be lifted
 
+## Usage
+
+To use it, run it at the root of the repository that has a `.npmrc` file:
+
+```
+# cd project
+# devops-buddy
+```
+
+A window would open for you to authenticate. Then it'll proceed to get a new accesstoken for you to use to install from npm feeds from Azure Artifacts.
+
 ## The Stack
 
 1. an Azure DevOps registered application
