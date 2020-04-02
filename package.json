@@ -1,6 +1,6 @@
 {
   "name": "devops-buddy",
-  "version": "0.2.6",
+  "version": "0.2.8",
   "license": "MIT",
   "main": "dist/cli.js",
   "bin": {
