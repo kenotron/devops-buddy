@@ -70,8 +70,16 @@ export async function injectTokenInNpmConfig(token: Token) {
     .toString()
     .trim();
 
-  const projectConfig = ini.parse(fs.readFileSync(projectNpmrcPath, "utf-8"));
-  const userConfig = ini.parse(fs.readFileSync(userNpmrcPath, "utf-8"));
+  let projectConfig = {};
+  let userConfig = {};
+
+  if (fs.existsSync(projectNpmrcPath)) {
+    projectConfig = ini.parse(fs.readFileSync(projectNpmrcPath, "utf-8"));
+  }
+
+  if (fs.existsSync(userNpmrcPath)) {
+    userConfig = ini.parse(fs.readFileSync(userNpmrcPath, "utf-8"));
+  }
 
   const combinedConfig = { ...userConfig, ...projectConfig };
 
