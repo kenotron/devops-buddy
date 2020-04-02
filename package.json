@@ -4,7 +4,7 @@
   "license": "MIT",
   "main": "dist/cli.js",
   "bin": {
-    "devops-buddy": "bin/devops-buddy.js"
+    "devops-buddy": "./bin/devops-buddy.js"
   },
   "repository": {
     "url": "https://github.com/kenotron/devops-buddy"
