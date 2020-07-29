@@ -2,7 +2,7 @@ import axios from "axios";
 import qs from "querystring";
 import { Token } from "./tokenStore";
 
-const SECONDS = 1000;
+const SECONDS = 2592000; // 30 days
 const TOKEN_URL = "https://app.vssps.visualstudio.com/oauth2/token";
 const ASSERTION_TYPE = "urn:ietf:params:oauth:client-assertion-type:jwt-bearer";
 
