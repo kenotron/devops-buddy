@@ -2,28 +2,19 @@
   "name": "devops-buddy",
   "version": "0.2.8",
   "license": "MIT",
-  "main": "dist/cli.js",
-  "bin": {
-    "devops-buddy": "./bin/devops-buddy.js"
-  },
+  "private": true,
   "repository": {
     "url": "https://github.com/kenotron/devops-buddy"
   },
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
-    "build": "tsc",
-    "start": "tsc -w"
+    "build": "lage build",
+    "start": "lage start"
   },
   "dependencies": {
-    "axios": "^0.19.2",
-    "electron": "^8.2.0",
-    "ini": "^1.3.5",
-    "jsonwebtoken": "^8.5.1"
+    "lage": "^2.7.15"
   },
-  "devDependencies": {
-    "@types/axios": "^0.14.0",
-    "@types/ini": "^1.3.30",
-    "@types/jsonwebtoken": "^8.3.8",
-    "tsc-watch": "^4.2.3",
-    "typescript": "^3.8.3"
-  }
+  "packageManager": "yarn@4.2.2"
 }

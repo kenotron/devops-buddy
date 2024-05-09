@@ -1,3 +1,6 @@
+*.log
+lib
 dist
 node_modules
-*.log
+.yarn/*.gz
+*.tgz
