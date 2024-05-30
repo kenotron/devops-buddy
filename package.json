@@ -14,7 +14,7 @@
     "start": "lage start"
   },
   "dependencies": {
-    "lage": "^2.7.15"
+    "lage": "^2.7.16"
   },
   "packageManager": "yarn@4.2.2"
 }
