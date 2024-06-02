@@ -1,9 +1,6 @@
 import { acquireEntraIdToken, getPAT } from "ado-pat";
 import { Command } from "commander";
 import { logger } from "./logger";
-import { Configuration } from "@yarnpkg/core";
-import { npath } from "@yarnpkg/fslib";
-import NpmPlugin from "@yarnpkg/plugin-npm";
 import { flatMap, groupBy } from "lodash-es";
 import path from "path";
 import fs from "fs";
