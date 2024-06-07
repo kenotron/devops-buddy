@@ -1,6 +1,5 @@
 import {
   DataProtectionScope,
-  Environment,
   PersistenceCreator,
   PersistenceCachePlugin,
 } from "@azure/msal-node-extensions";
@@ -9,18 +8,15 @@ import os from "os";
 import path from "path";
 
 // See https://www.npmjs.com/package/@azure/msal-node-extensions#usage---cache-persistence
-export async function createTokenCachePlugin({
-  accountName,
-}: {
-  accountName: string;
-}) {
+export async function createTokenCachePlugin() {
   const homeDir = os.homedir();
-  const cachePath = path.join(homeDir, ".ado-pat.json");
+  const accountName = os.userInfo().username;
+  const cachePath = path.join(homeDir, ".ado-pat-entra.json");
 
   const persistenceConfiguration = {
     cachePath,
     dataProtectionScope: DataProtectionScope.CurrentUser,
-    serviceName: "ado-pat",
+    serviceName: "ado-pat-entra",
     accountName,
     usePlaintextFileOnLinux: false,
   };

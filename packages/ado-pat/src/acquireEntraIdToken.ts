@@ -22,7 +22,7 @@ interface Options {
 export async function acquireEntraIdToken(options?: Options) {
   options = options || {};
 
-  const cachePlugin = await createTokenCachePlugin({ accountName: "ado-pat" });
+  const cachePlugin = await createTokenCachePlugin();
 
   const pca = new PublicClientApplication({
     ...getAuthConfig({

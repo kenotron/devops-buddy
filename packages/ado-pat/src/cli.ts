@@ -1,6 +1,6 @@
 import { acquireEntraIdToken } from "./acquireEntraIdToken";
 import { Command } from "commander";
-import { getPAT } from "./getPAT";
+import { createPAT } from "./getPAT";
 import { logger } from "./logger";
 
 async function main() {
@@ -44,7 +44,7 @@ async function action({ tenantId, organization, displayName }: Options) {
 
   console.log(
     JSON.stringify(
-      await getPAT({
+      await createPAT({
         organization,
         scope: "vso.packaging_write",
         displayName,

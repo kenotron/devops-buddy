@@ -2,12 +2,21 @@ import path from "node:path";
 import fs from "node:fs";
 import os from "node:os";
 import yaml from "js-yaml";
+import { IFeedInfo } from "./types/IFeedInfo";
+import { tryGetValue } from "./try-get-value";
+import { generateFeedInfo } from "./generate-feed-info";
+import { IPackageManagerConfiguration } from "./types/IPackageManagerConfiguration";
 
 export interface YarnRcOptions {
   root: string;
 }
 
-export class YarnRc {
+interface IYarnRcConfig {
+  npmRegistryServer?: string;
+  npmRegistries?: Record<string, string>;
+}
+
+export class YarnRc implements IPackageManagerConfiguration<IYarnRcConfig> {
   projectConfigFile: string | null;
   globalConfigFile: string;
 
@@ -36,25 +45,73 @@ export class YarnRc {
   }
 
   loadProjectConfig() {
-    if (!this.projectConfigFile) {
+    if (!this.projectConfigFile || !fs.existsSync(this.projectConfigFile)) {
       return {};
     }
 
     const contents = fs.readFileSync(this.projectConfigFile, "utf8");
-    const projectConfig = yaml.load(contents) ?? {};
+    const projectConfig = (yaml.load(contents) as IYarnRcConfig) ?? {};
     return projectConfig;
   }
 
-  ensureGlobalConfig() {
-    const userAuthFileExists = fs.existsSync(this.globalConfigFile);
-    if (!userAuthFileExists) {
-      fs.writeFileSync(this.globalConfigFile, "");
-    }
-  }
-
   loadGlobalConfig() {
+    if (!this.globalConfigFile || !fs.existsSync(this.globalConfigFile)) {
+      return {};
+    }
+
     const contents = fs.readFileSync(this.globalConfigFile, "utf8");
-    const globalConfig = yaml.load(contents) ?? {};
+    const globalConfig = (yaml.load(contents) as IYarnRcConfig) ?? {};
     return globalConfig;
   }
+
+  updateGlobalConfigWithFeeds(feeds: IFeedInfo[]) {
+    const globalConfig = (() => {
+      if (fs.existsSync(this.globalConfigFile)) {
+        const homeYamlContent = fs.readFileSync(this.globalConfigFile, "utf-8");
+        return yaml.load(homeYamlContent) as any;
+      } else {
+        return { npmRegistries: {} };
+      }
+    })();
+
+    const homeNpmRegistries = tryGetValue(globalConfig, "npmRegistries", {});
+
+    for (const feed of feeds) {
+      const url =
+        feed.style === "visualstudio.com"
+          ? `https://${feed.organization}.pkgs.visualstudio.com/_packaging/${feed.feed}/npm/registry/`
+          : `https://pkgs.dev.azure.com/${feed.organization}/_packaging/${feed.feed}/npm/registry/`;
+      homeNpmRegistries[url] = {
+        npmAuthIdent: Buffer.from(`${feed.organization}:${feed.pat}`).toString(
+          "base64"
+        ),
+        npmAlwaysAuth: true,
+      };
+    }
+
+    const outputString = yaml.dump(
+      Object.assign({}, globalConfig, { npmRegistries: homeNpmRegistries })
+    );
+
+    fs.writeFileSync(this.globalConfigFile, outputString);
+  }
+
+  getFeedInfo(): IFeedInfo[] {
+    const projectConfig = this.loadProjectConfig();
+
+    const npmRegistryServer = tryGetValue(
+      projectConfig,
+      "npmRegistryServer",
+      ""
+    );
+    const npmRegistries = tryGetValue(projectConfig, "npmRegistries", {});
+
+    const servers = [
+      ...(npmRegistryServer ? [npmRegistryServer] : []),
+      ...(npmRegistries ? Object.keys(npmRegistries) : []),
+    ];
+
+    return generateFeedInfo(servers);
+  }
+  
 }
