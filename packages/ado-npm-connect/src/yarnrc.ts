@@ -16,11 +16,11 @@ interface IYarnRcConfig {
   npmRegistries?: Record<string, string>;
 }
 
-export class YarnRc implements IPackageManagerConfiguration<IYarnRcConfig> {
+export class YarnRc implements IPackageManagerConfiguration {
   projectConfigFile: string | null;
   globalConfigFile: string;
 
-  constructor(private options: YarnRcOptions) {
+  constructor(options: YarnRcOptions) {
     this.globalConfigFile = path.join(os.homedir(), ".yarnrc.yml");
     this.projectConfigFile = this.findProjectConfigFile(options.root);
   }
@@ -44,7 +44,7 @@ export class YarnRc implements IPackageManagerConfiguration<IYarnRcConfig> {
     return null;
   }
 
-  loadProjectConfig() {
+  #loadProjectConfig() {
     if (!this.projectConfigFile || !fs.existsSync(this.projectConfigFile)) {
       return {};
     }
@@ -97,7 +97,7 @@ export class YarnRc implements IPackageManagerConfiguration<IYarnRcConfig> {
   }
 
   getFeedInfo(): IFeedInfo[] {
-    const projectConfig = this.loadProjectConfig();
+    const projectConfig = this.#loadProjectConfig();
 
     const npmRegistryServer = tryGetValue(
       projectConfig,
@@ -113,5 +113,4 @@ export class YarnRc implements IPackageManagerConfiguration<IYarnRcConfig> {
 
     return generateFeedInfo(servers);
   }
-  
 }

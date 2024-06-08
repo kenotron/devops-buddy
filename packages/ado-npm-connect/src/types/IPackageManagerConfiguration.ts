@@ -1,7 +1,7 @@
 import { IFeedInfo } from "./IFeedInfo";
 
-export interface IPackageManagerConfiguration<TConfig> {
+export interface IPackageManagerConfiguration {
   findProjectConfigFile(cwd: string): string | null;
-  loadProjectConfig(): TConfig | null;
   updateGlobalConfigWithFeeds(feeds: IFeedInfo[]): void;
+  getFeedInfo(): IFeedInfo[];
 }

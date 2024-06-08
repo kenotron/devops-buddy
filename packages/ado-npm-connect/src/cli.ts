@@ -3,6 +3,10 @@ import { Command } from "commander";
 import { logger } from "./logger";
 import { flatMap, groupBy } from "lodash-es";
 import { YarnRc } from "./yarnrc";
+import { NpmRc } from "./npmrc";
+import path from "path";
+import fs from "fs";
+import { IPackageManagerConfiguration } from "./types/IPackageManagerConfiguration";
 
 async function main() {
   try {
@@ -37,9 +41,19 @@ async function action({ tenantId, root }: Options) {
     process.exit(1);
   }
 
-  const yarnConfig = new YarnRc({ root });
+  if (!root) {
+    root = process.cwd();
+  }
 
-  const feedInfos = yarnConfig.getFeedInfo();
+  const config: IPackageManagerConfiguration = (() => {
+    if (!fs.existsSync(path.join(root, ".yarnrc.yml"))) {
+      return new NpmRc({ root });
+    }
+
+    return new YarnRc({ root });
+  })();
+
+  const feedInfos = config.getFeedInfo();
 
   const feedsByOrg = groupBy(feedInfos, "organization");
 
@@ -80,7 +94,7 @@ async function action({ tenantId, root }: Options) {
 
   const feeds = flatMap(feedsByOrg);
 
-  yarnConfig.updateGlobalConfigWithFeeds(feeds);
+  config.updateGlobalConfigWithFeeds(feeds);
 }
 
 main();
