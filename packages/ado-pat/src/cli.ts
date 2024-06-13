@@ -1,6 +1,6 @@
 import { acquireEntraIdToken } from "./acquireEntraIdToken";
 import { Command } from "commander";
-import { createPAT } from "./getPAT";
+import { createPAT } from "./createPAT";
 import { logger } from "./logger";
 
 async function main() {
