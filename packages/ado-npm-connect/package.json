@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "description": "Helps npm and yarn to connect to Azure DevOps Artifacts",
   "scripts": {
+    "build": "tsc",
     "dev": "webpack --watch --mode development",
-    "bundle:dist": "webpack --mode production"
+    "bundle": "webpack --mode production"
   },
   "dependencies": {
     "@azure/msal-node": "^2.7.0",

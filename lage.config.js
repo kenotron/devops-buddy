@@ -1,5 +1,6 @@
 module.exports = {
   pipeline: {
-    build: ['^build'],
-  }
-}
+    build: ["^build"],
+    bundle: [],
+  },
+};

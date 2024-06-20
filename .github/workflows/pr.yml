@@ -28,4 +28,4 @@ jobs:
         run: yarn checkchange
 
       - name: Build
-        run: yarn lage build --concurrency 2 --verbose
+        run: yarn lage build bundle --concurrency 2 --verbose
