@@ -1,4 +1,3 @@
-import { PatToken } from "./PatToken";
 import { createPatPersistence } from "./PatPersistence";
 
 interface CreatePATOptions {

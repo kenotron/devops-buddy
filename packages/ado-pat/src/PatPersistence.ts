@@ -1,11 +1,8 @@
-import { Entry } from "@napi-rs/keyring";
-
 import os from "os";
 import path from "path";
 import { PatToken } from "./PatToken";
 import { ICacheStore } from "./cache/ICacheStore";
-import { WindowsCacheStore } from "./cache/WindowsCacheStore";
-import { KeyringCacheStore } from "./cache/KeyringCacheStore";
+import { createCacheStore } from "./cache/createCacheStore";
 
 class PatPersistence {
   persistence: ICacheStore | null = null;
@@ -17,16 +14,7 @@ class PatPersistence {
 
   async initialize() {
     if (!this.persistence) {
-      const homeDir = os.homedir();
-      const accountName = os.userInfo().username;
-      const cacheName = "ado-pats";
-      const cachePath = path.join(homeDir, `ado-pat`, ".pats.json");
-
-      if (process.platform === "win32") {
-        return new WindowsCacheStore(cachePath, "CurrentUser", null);
-      } else {
-        return new KeyringCacheStore(cacheName, accountName);
-      }
+      this.persistence = createCacheStore();
     }
   }
 

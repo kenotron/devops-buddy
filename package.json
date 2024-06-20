@@ -11,10 +11,13 @@
   ],
   "scripts": {
     "build": "lage build",
-    "start": "lage start"
+    "start": "lage start",
+    "checkchange": "beachball check",
+    "release": "beachball publish -y"
   },
   "dependencies": {
-    "lage": "^2.7.16"
+    "lage": "^2.7.16",
+    "beachball": "^2.43.1"
   },
   "packageManager": "yarn@4.2.2"
 }
