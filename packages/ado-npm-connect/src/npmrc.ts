@@ -3,7 +3,6 @@ import fs from "node:fs";
 import os from "node:os";
 import ini from "ini";
 import { IFeedInfo } from "./types/IFeedInfo";
-import { tryGetValue } from "./try-get-value";
 import { generateFeedInfo } from "./generate-feed-info";
 import { IPackageManagerConfiguration } from "./types/IPackageManagerConfiguration";
 
