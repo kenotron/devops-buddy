@@ -9,8 +9,8 @@
   "dependencies": {
     "@azure/msal-node": "^2.7.0",
     "@napi-rs/keyring": "^1.1.6",
-    "ado-pat": "workspace:*",
     "@primno/dpapi": "^1.1.2",
+    "ado-pat": "workspace:*",
     "open": "^10.1.0"
   },
   "exports": {
