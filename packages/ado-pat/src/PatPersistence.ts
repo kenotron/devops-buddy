@@ -1,15 +1,14 @@
-import {
-  type IPersistence,
-  PersistenceCreator,
-  DataProtectionScope,
-} from "@azure/msal-node-extensions";
+import { Entry } from "@napi-rs/keyring";
 
 import os from "os";
 import path from "path";
 import { PatToken } from "./PatToken";
+import { ICacheStore } from "./cache/ICacheStore";
+import { WindowsCacheStore } from "./cache/WindowsCacheStore";
+import { KeyringCacheStore } from "./cache/KeyringCacheStore";
 
 class PatPersistence {
-  persistence: IPersistence | null = null;
+  persistence: ICacheStore | null = null;
   homeDir = os.homedir();
   accountName = os.userInfo().username;
   cachePath = path.join(this.homeDir, ".ado-pat.json");
@@ -20,19 +19,14 @@ class PatPersistence {
     if (!this.persistence) {
       const homeDir = os.homedir();
       const accountName = os.userInfo().username;
-      const cachePath = path.join(homeDir, ".ado-pat.json");
+      const cacheName = "ado-pats";
+      const cachePath = path.join(homeDir, `ado-pat`, ".pats.json");
 
-      const persistenceConfiguration = {
-        cachePath,
-        dataProtectionScope: DataProtectionScope.CurrentUser,
-        serviceName: "ado-pat",
-        accountName,
-        usePlaintextFileOnLinux: false,
-      };
-
-      this.persistence = await PersistenceCreator.createPersistence(
-        persistenceConfiguration
-      );
+      if (process.platform === "win32") {
+        return new WindowsCacheStore(cachePath, "CurrentUser", null);
+      } else {
+        return new KeyringCacheStore(cacheName, accountName);
+      }
     }
   }
 
@@ -42,11 +36,11 @@ class PatPersistence {
     }
 
     // save the PAT on create
-    const savedPatsString = await this.persistence.load();
+    const savedPatsString = await this.persistence.get();
     const savedPats = savedPatsString ? JSON.parse(savedPatsString) : {};
     savedPats[organization] = savedPats[organization] || [];
     savedPats[organization].push(pat);
-    return await this.persistence.save(JSON.stringify(savedPats));
+    return await this.persistence.set(JSON.stringify(savedPats));
   }
 
   async list(organization: string) {
@@ -54,7 +48,7 @@ class PatPersistence {
       throw new Error("Persistence not initialized");
     }
 
-    const savedPatsString = await this.persistence.load();
+    const savedPatsString = await this.persistence.get();
 
     if (!savedPatsString) {
       return [];
