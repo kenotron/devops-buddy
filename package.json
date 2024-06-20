@@ -16,8 +16,8 @@
     "release": "beachball publish -y"
   },
   "dependencies": {
-    "lage": "^2.7.16",
-    "beachball": "^2.43.1"
+    "beachball": "^2.43.1",
+    "lage": "^2.7.16"
   },
   "packageManager": "yarn@4.2.2"
 }

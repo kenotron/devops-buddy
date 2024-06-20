@@ -8,8 +8,8 @@
   },
   "dependencies": {
     "@azure/msal-node": "^2.7.0",
-    "ado-pat": "workspace:*",
     "@napi-rs/keyring": "^1.1.6",
+    "ado-pat": "workspace:*",
     "node-dpapi2": "^1.0.5",
     "open": "^10.1.0"
   },
