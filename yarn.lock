@@ -310,6 +310,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@primno/dpapi@npm:^1.1.2":
+  version: 1.1.2
+  resolution: "@primno/dpapi@npm:1.1.2"
+  dependencies:
+    node-gyp: "npm:latest"
+    node-gyp-build: "npm:^4.6.0"
+  checksum: 10c0/1e6127f5f5110a174de275574f5ea358ccc5777277bcdb1a67b7d0f22ae71a011cc062a900558c42647e266ac7008148ec7dfba70a463151836ab2956c1fbd9e
+  languageName: node
+  linkType: hard
+
 "@swc/core-darwin-arm64@npm:1.5.24":
   version: 1.5.24
   resolution: "@swc/core-darwin-arm64@npm:1.5.24"
@@ -793,11 +803,11 @@ __metadata:
   dependencies:
     "@azure/msal-node": "npm:^2.7.0"
     "@napi-rs/keyring": "npm:^1.1.6"
+    "@primno/dpapi": "npm:^1.1.2"
     "@swc/core": "npm:^1.4.17"
     "@types/node": "npm:^20.12.7"
     azure-devops-node-api: "npm:^13.0.0"
     commander: "npm:^12.0.0"
-    node-dpapi2: "npm:^1.0.5"
     open: "npm:^10.1.0"
     pino: "npm:^9.0.0"
     pino-pretty: "npm:^11.0.0"
@@ -2641,6 +2651,17 @@ __metadata:
     fetch-blob: "npm:^3.1.4"
     formdata-polyfill: "npm:^4.0.10"
   checksum: 10c0/f3d5e56190562221398c9f5750198b34cf6113aa304e34ee97c94fd300ec578b25b2c2906edba922050fce983338fde0d5d34fcb0fc3336ade5bd0e429ad7538
+  languageName: node
+  linkType: hard
+
+"node-gyp-build@npm:^4.6.0":
+  version: 4.8.1
+  resolution: "node-gyp-build@npm:4.8.1"
+  bin:
+    node-gyp-build: bin.js
+    node-gyp-build-optional: optional.js
+    node-gyp-build-test: build-test.js
+  checksum: 10c0/e36ca3d2adf2b9cca316695d7687207c19ac6ed326d6d7c68d7112cebe0de4f82d6733dff139132539fcc01cf5761f6c9082a21864ab9172edf84282bc849ce7
   languageName: node
   linkType: hard
 

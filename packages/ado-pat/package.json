@@ -11,7 +11,7 @@
   "dependencies": {
     "@azure/msal-node": "^2.7.0",
     "@napi-rs/keyring": "^1.1.6",
-    "node-dpapi2": "^1.0.5",
+    "@primno/dpapi": "^1.1.2",
     "open": "^10.1.0"
   },
   "bin": "bin/ado-pat",

@@ -1,7 +1,7 @@
 // WindowsCacheStore uses napi-dpapi2 to encrypt and store into a Windows DPAPI2 protected file.
 
 import { ICacheStore } from "./ICacheStore";
-import dpapi from "node-dpapi2";
+import { Dpapi } from "@primno/dpapi";
 import fs from "fs";
 import path from "path";
 
@@ -14,7 +14,7 @@ export class WindowsCacheStore implements ICacheStore {
 
   public set(value: string) {
     const data = Buffer.from(value);
-    const encryptedValue = dpapi.protectData(
+    const encryptedValue = Dpapi.protectData(
       data,
       this.optionalEntropy,
       this.scope
@@ -35,7 +35,7 @@ export class WindowsCacheStore implements ICacheStore {
     // Read the encrypted value from the file
     const contents = fs.readFileSync(this.fileName);
 
-    const decryptedValue = dpapi.unprotectData(
+    const decryptedValue = Dpapi.unprotectData(
       contents,
       this.optionalEntropy,
       this.scope
