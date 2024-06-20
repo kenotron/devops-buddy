@@ -815,6 +815,9 @@ __metadata:
     typescript: "npm:^5.4.5"
     webpack: "npm:^5.91.0"
     webpack-cli: "npm:^5.1.4"
+  dependenciesMeta:
+    "@primno/dpapi":
+      optional: true
   bin:
     ado-pat: bin/ado-pat
   languageName: unknown
