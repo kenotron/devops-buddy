@@ -1,6 +1,4 @@
-import { createPatPersistence } from "./PatPersistence";
-
-interface CreatePATOptions {
+interface CreatePatOptions {
   organization: string;
   displayName?: string;
   scope?: string;
@@ -14,7 +12,7 @@ export async function createPAT({
   validTo,
   scope = "vso.packaging_write",
   token,
-}: CreatePATOptions) {
+}: CreatePatOptions) {
   if (!validTo) {
     validTo = new Date(Date.now() + 60 * 60 * 24 * 30 * 1000);
   }
@@ -38,11 +36,6 @@ export async function createPAT({
 
   if (patResponse.ok) {
     const pat = await patResponse.json();
-
-    const persistence = createPatPersistence(displayName);
-    await persistence.initialize();
-    await persistence.add(organization, pat.patToken);
-
     return pat;
   } else {
     throw new Error(await patResponse.text());

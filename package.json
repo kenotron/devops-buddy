@@ -12,13 +12,15 @@
   "scripts": {
     "build": "lage build",
     "start": "lage start",
-    "change": "beachball change",
+    "bundle": "lage bundle",
     "checkchange": "beachball check",
-    "release": "beachball publish -y"
+    "release": "beachball publish",
+    "change": "beachball change"
   },
   "dependencies": {
-    "beachball": "^2.43.1",
-    "lage": "^2.7.16"
+    "beachball": "^2.49.0",
+    "depcheck": "^1.4.7",
+    "lage": "^2.11.12"
   },
   "packageManager": "yarn@4.2.2"
 }

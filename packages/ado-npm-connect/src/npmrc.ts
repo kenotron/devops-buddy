@@ -5,12 +5,16 @@ import ini from "ini";
 import { IFeedInfo } from "./types/IFeedInfo";
 import { generateFeedInfo } from "./generate-feed-info";
 import { IPackageManagerConfiguration } from "./types/IPackageManagerConfiguration";
+import { logger } from "./logger";
+
+const MARKER = "; ----- ado-npm-connect ";
 
 export interface NpmRcOptions {
   root: string;
 }
 
 interface INpmRcConfig {
+  [key: string]: any;
   registry?: string;
   [key: `@${string}:registry`]: string;
   [key: `//${string}/:_authToken`]: string;
@@ -30,15 +34,8 @@ export class NpmRc implements IPackageManagerConfiguration {
 
   findProjectConfigFile(cwd: string) {
     let current = cwd;
-    while (current !== "/") {
-      const npmrcFile = path.join(current, ".npmrc");
-      if (fs.existsSync(npmrcFile)) {
-        return npmrcFile;
-      }
-      current = path.dirname(current);
-    }
-
-    return null;
+    logger.info(`Project root: ${current}/.npmrc`);
+    return path.resolve(current, ".npmrc");
   }
 
   #loadProjectConfig() {
@@ -64,42 +61,52 @@ export class NpmRc implements IPackageManagerConfiguration {
   }
 
   updateGlobalConfigWithFeeds(feeds: IFeedInfo[]) {
-    let globalConfig = (() => {
-      if (fs.existsSync(this.globalConfigFile)) {
-        return this.loadGlobalConfig();
-      } else {
-        return {};
-      }
-    })();
+    let globalConfigString = fs.readFileSync(this.globalConfigFile, "utf-8");
 
     for (const feed of feeds) {
-      const url =
-        feed.style === "visualstudio.com"
-          ? `//${feed.organization}.pkgs.visualstudio.com/_packaging/${feed.feed}/npm/`
-          : `//pkgs.dev.azure.com/${feed.organization}/_packaging/${feed.feed}/npm/`;
+      const url = feed.url;
+      const marker = `${MARKER}${url}`;
 
       const encodedPat = Buffer.from(feed.pat!).toString("base64");
 
       const noPostfix = {
         [`${url}:username`]: feed.organization,
         [`${url}:_password`]: encodedPat,
-        [`${url}:_email`]:
-          "npm requires email to be set but doesn't use the value",
+        [`${url}:email`]:
+          "npm requires email to be set but never uses the value",
       };
 
       const withPostfix = {
         [`${url}registry/:username`]: feed.organization,
         [`${url}registry/:_password`]: encodedPat,
-        [`${url}registry/:_email`]:
-          "npm requires email to be set but doesn't use the value",
+        [`${url}registry/:email`]:
+          "npm requires email to be set but never uses the value",
       };
 
-      globalConfig = { ...globalConfig, ...noPostfix, ...withPostfix };
+      if (!globalConfigString.includes(marker)) {
+        globalConfigString += `${marker}\n${ini.stringify({
+          ...noPostfix,
+          ...withPostfix,
+        }).trimEnd()}\n${marker}`;
+      } else {
+        // get rid of existing entries denoted between two "marker" comments, could be over multiple lines
+        globalConfigString = globalConfigString.replace(
+          new RegExp(`${marker}.*${marker}`, "s"),
+          `${marker}\n${ini.stringify({
+            ...noPostfix,
+            ...withPostfix,
+          }).trimEnd()}\n${marker}`
+        );
+      }
     }
 
-    const outputString = ini.stringify(Object.assign({}, globalConfig));
+    fs.writeFileSync(this.globalConfigFile, globalConfigString);
 
-    fs.writeFileSync(this.globalConfigFile, outputString);
+    logger.info(
+      `Updated global npmrc file at ${
+        this.globalConfigFile
+      } with these feeds: ${feeds.map((f) => f.feed).join(", ")}`
+    );
   }
 
   getFeedInfo(): IFeedInfo[] {
