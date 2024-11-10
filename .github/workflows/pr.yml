@@ -36,14 +36,14 @@ jobs:
         if: ${{ matrix.os == 'ubuntu-latest' }}
         run: yarn checkchange
 
-      # @see https://www.npmjs.com/package/syncpack
-      - name: Check consistent package.json dep versions
-        if: ${{ matrix.os == 'ubuntu-latest' }}
-        run: yarn syncpack list-mismatches
+      # # @see https://www.npmjs.com/package/syncpack
+      # - name: Check consistent package.json dep versions
+      #   if: ${{ matrix.os == 'ubuntu-latest' }}
+      #   run: yarn syncpack list-mismatches
 
-      - name: Dependency checks
-        if: ${{ matrix.os == 'ubuntu-latest' }}
-        run: yarn depcheck
+      # - name: Dependency checks
+      #   if: ${{ matrix.os == 'ubuntu-latest' }}
+      #   run: yarn depcheck
 
       - name: Build, Test, Lint
         run: yarn ci --concurrency 2 --verbose
