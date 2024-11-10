@@ -1,10 +1,12 @@
 {
-  "name": "ado-yarn-auth",
+  "name": "ado-npm-connect",
   "version": "1.0.0",
   "description": "Authenticates yarn berry to Azure DevOps",
   "scripts": {
     "dev": "webpack --watch --mode development",
-    "bundle:dist": "webpack --mode production"
+    "build": "tsc",
+    "try": "tsx ./src/cli.ts -r /Users/ken/workspace/tmp2",
+    "bundle": "webpack --mode production"
   },
   "dependencies": {
     "@azure/msal-node": "^2.7.0",
@@ -30,6 +32,7 @@
     "pino": "^9.0.0",
     "pino-pretty": "^11.0.0",
     "swc-loader": "^0.2.6",
+    "tsx": "^4.19.2",
     "typescript": "^5.4.5",
     "webpack": "^5.91.0",
     "webpack-cli": "^5.1.4"

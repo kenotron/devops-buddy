@@ -11,10 +11,11 @@
   ],
   "scripts": {
     "build": "lage build",
-    "start": "lage start"
+    "start": "lage start",
+    "bundle": "lage bundle"
   },
   "dependencies": {
-    "lage": "^2.7.16"
+    "lage": "^2.11.12"
   },
   "packageManager": "yarn@4.2.2"
 }

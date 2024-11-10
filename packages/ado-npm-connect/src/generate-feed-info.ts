@@ -15,14 +15,15 @@ export function generateFeedInfo(servers: string[]): IFeedInfo[] {
 
       if (server.includes(".pkgs.visualstudio.com")) {
         groups = server.match(
-          `(?<organization>${orgPattern})\.pkgs\.visualstudio\.com/_packaging/(?<feed>${feedPattern})/`
+          `(?<organization>${orgPattern})\.pkgs\.visualstudio\.com(?:/(?<project>[A-Za-z0-9-]+))?/_packaging/(?<feed>${feedPattern})/`
         )?.groups as unknown as IFeedInfo;
+
         groups.style = "visualstudio.com";
       }
 
       if (server.includes("pkgs.dev.azure.com")) {
         groups = server.match(
-          `pkgs\.dev\.azure\.com/(?<organization>${orgPattern})/_packaging/(?<feed>${feedPattern})/`
+          `pkgs\.dev\.azure\.com/(?<organization>${orgPattern})(?:/(?<project>[A-Za-z0-9-]+))?/_packaging/(?<feed>${feedPattern})/`
         )?.groups as unknown as IFeedInfo;
         groups.style = "dev.azure.com";
       }
