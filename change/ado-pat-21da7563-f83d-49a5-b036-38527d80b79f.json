@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "publish",
-  "packageName": "ado-pat",
-  "email": "kchau@microsoft.com",
-  "dependentChangeType": "patch"
-}

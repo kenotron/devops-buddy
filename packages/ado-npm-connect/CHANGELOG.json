@@ -1,0 +1,20 @@
+{
+  "name": "ado-npm-connect",
+  "entries": [
+    {
+      "date": "Sun, 10 Nov 2024 06:19:29 GMT",
+      "version": "1.0.1",
+      "tag": "ado-npm-connect_v1.0.1",
+      "comments": {
+        "patch": [
+          {
+            "author": "kchau@microsoft.com",
+            "package": "ado-npm-connect",
+            "commit": "b4a2f00aaae3cc0fc535247ba9b1187e6611b3dd",
+            "comment": "publish"
+          }
+        ]
+      }
+    }
+  ]
+}

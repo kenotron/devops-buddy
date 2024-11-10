@@ -1,6 +1,6 @@
 {
   "name": "ado-npm-connect",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Helps npm and yarn to connect to Azure DevOps Artifacts",
   "scripts": {
     "build": "tsc",
