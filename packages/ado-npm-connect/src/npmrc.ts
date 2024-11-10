@@ -64,15 +64,7 @@ export class NpmRc implements IPackageManagerConfiguration {
     let globalConfigString = fs.readFileSync(this.globalConfigFile, "utf-8");
 
     for (const feed of feeds) {
-      const url =
-        feed.style === "visualstudio.com"
-          ? `//${feed.organization}.pkgs.visualstudio.com${
-              feed.project ? `/${feed.project}` : ""
-            }/_packaging/${feed.feed}/npm/`
-          : `//pkgs.dev.azure.com/${feed.organization}${
-              feed.project ? `/${feed.project}` : ""
-            }/_packaging/${feed.feed}/npm/`;
-
+      const url = feed.url;
       const marker = `${MARKER}${url}`;
 
       const encodedPat = Buffer.from(feed.pat!).toString("base64");

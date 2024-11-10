@@ -77,11 +77,17 @@ export class YarnRc implements IPackageManagerConfiguration {
     const homeNpmRegistries = tryGetValue(globalConfig, "npmRegistries", {});
 
     for (const feed of feeds) {
-      const url =
-        feed.style === "visualstudio.com"
-          ? `https://${feed.organization}.pkgs.visualstudio.com/_packaging/${feed.feed}/npm/registry/`
-          : `https://pkgs.dev.azure.com/${feed.organization}/_packaging/${feed.feed}/npm/registry/`;
+      const url = `https:${feed.url}`;
+      const urlWithPostfix = `${url}registry/`;
+
       homeNpmRegistries[url] = {
+        npmAuthIdent: Buffer.from(`${feed.organization}:${feed.pat}`).toString(
+          "base64"
+        ),
+        npmAlwaysAuth: true,
+      };
+
+      homeNpmRegistries[urlWithPostfix] = {
         npmAuthIdent: Buffer.from(`${feed.organization}:${feed.pat}`).toString(
           "base64"
         ),
