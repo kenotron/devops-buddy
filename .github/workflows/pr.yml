@@ -45,5 +45,5 @@ jobs:
       #   if: ${{ matrix.os == 'ubuntu-latest' }}
       #   run: yarn depcheck
 
-      - name: Build, Test, Lint
-        run: yarn ci --concurrency 2 --verbose
+      - name: Build, test, lint, and bundle
+        run: yarn build test lint --concurrency 2 --verbose
