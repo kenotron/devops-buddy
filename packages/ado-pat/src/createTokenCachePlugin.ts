@@ -1,6 +1,5 @@
 import {
   DataProtectionScope,
-  Environment,
   PersistenceCreator,
   PersistenceCachePlugin,
 } from "@azure/msal-node-extensions";
