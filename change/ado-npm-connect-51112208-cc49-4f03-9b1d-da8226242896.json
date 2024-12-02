@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "fixing the publish",
-  "packageName": "ado-npm-connect",
-  "email": "kchau@microsoft.com",
-  "dependentChangeType": "patch"
-}

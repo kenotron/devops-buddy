@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "get rid of unused import",
-  "packageName": "ado-pat",
-  "email": "kchau@microsoft.com",
-  "dependentChangeType": "patch"
-}
